@@ -6,8 +6,8 @@
 # Terminates on when user types quit
 #############################################################
 
-from pantry import Pantry
-db = Pantry()
+from pantry_class import Pantry
+pantry = Pantry()
 
 def main():
     print("Scan an item or type 'quit' to exit...")
@@ -16,7 +16,10 @@ def main():
         if user_input.lower() == "quit":
             break
 
-        db.add_item(user_input)
+        pantry.add_item(user_input)
+        
+    pantry.close_pantry()
+    
 
 if __name__ == '__main__':
     main()
