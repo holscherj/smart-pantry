@@ -6,6 +6,7 @@
 # access the inventory of the items added to the
 # smart pantry
 #####################################################
+
 from database import Database
 import openfoodfacts
 api = openfoodfacts.API(user_agent="smart-pantry/1.0")
@@ -24,6 +25,9 @@ class Pantry():
 
     def get_item(self, code):
         self.db.get_item(code)
+
+    def get_inventory(self):
+        return self.db.get_inventory()
 
     def close_pantry(self):
         self.db.close()

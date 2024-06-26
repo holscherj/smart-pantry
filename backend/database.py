@@ -11,7 +11,8 @@ class Database():
         with self.conn:
             self.conn.execute("""
                 CREATE TABLE IF NOT EXISTS pantry (
-                    barcode TEXT PRIMARY KEY,
+                    num INTEGER PRIMARY KEY AUTOINCREMENT,
+                    barcode TEXT NOT NULL,
                     product_name TEXT NOT NULL
                 )
             """)
@@ -29,6 +30,11 @@ class Database():
         cursor = self.conn.cursor()
         cursor.execute("SELECT * FROM pantry WHERE barcode = ?", (barcode,))
         return cursor.fetchone()
+    
+    def get_inventory(self):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT * FROM pantry")
+        return cursor.fetchall()
 
     def close(self):
         if self.conn:
