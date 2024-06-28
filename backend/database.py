@@ -21,10 +21,10 @@ class Database():
         with self.conn:
             self.conn.execute("INSERT INTO pantry (barcode, product_name) VALUES (?, ?)", 
                               (barcode, product_name))
-            
-    def remove_item(self, barcode):
+
+    def remove_item(self, id):
         with self.conn:
-            self.conn.execute("DELETE FROM pantry WHERE barcode = ?", (barcode,))
+            self.conn.execute("DELETE FROM pantry WHERE num = ?", (id,))
 
     def get_item(self, barcode):
         cursor = self.conn.cursor()

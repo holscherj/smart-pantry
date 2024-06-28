@@ -16,12 +16,15 @@ class Pantry():
         self.db = Database("smart_pantry.db")
         self.target_info = ["product_name"]
     
-    def add_item(self, code):
-        food_data = api.product.get(code, fields=self.target_info)
-        self.db.add_item(code, food_data["product_name"])
-
-    def remove_item(self, code):
-        self.db.remove_item(code)
+    def add_item(self, code, name=None):
+        if name is None:
+            food_data = api.product.get(code, fields=self.target_info)
+            self.db.add_item(code, food_data["product_name"])
+        else:
+            self.db.add_item(code, name)
+            
+    def remove_item(self, id):
+        self.db.remove_item(id)
 
     def get_item(self, code):
         self.db.get_item(code)

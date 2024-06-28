@@ -7,8 +7,27 @@ class ScanItemsScreen(tk.Frame):
         self.pantry = pantry
         self.configure(background="#FFFFFF")
 
-        self.inventory_frame = ttk.Frame(self)
-        self.inventory_frame.pack(fill=tk.BOTH, expand=True)
+        self.canvas_frame = tk.Frame(self)
+        self.canvas_frame.pack(side="top", fill="both", expand=True, pady=20)
+
+        self.canvas = tk.Canvas(self.canvas_frame)
+        self.canvas.configure(background="#FFFFFF")
+        
+        self.scrollbar = ttk.Scrollbar(self.canvas_frame, command=self.canvas.yview)
+        self.inventory_frame = ttk.Frame(self.canvas)
+
+        self.inventory_frame.bind(
+            "<Configure>",
+            lambda e: self.canvas.configure(
+                scrollregion=self.canvas.bbox("all")
+            )
+        )
+
+        self.canvas.create_window((0,0), window=self.inventory_frame, anchor="nw")
+        self.canvas.configure(yscrollcommand=self.scrollbar.set)
+        self.canvas.pack(side="left", fill="both", expand=True)
+        self.scrollbar.pack(side="right", fill="y")
+        
         self.display_inventory()
 
         self.entry = ttk.Entry(self)
@@ -49,14 +68,19 @@ class ScanItemsScreen(tk.Frame):
         self.display_inventory()
 
     def display_inventory(self):
+        if len(self.pantry.get_inventory()) != 0:
+            max_name_length = max(len(row[2]) for row in self.pantry.get_inventory())
+
+
         for widget in self.inventory_frame.winfo_children():
             widget.destroy()
 
         if len(self.pantry.get_inventory()) == 0:
             ttk.Label(self.inventory_frame, text="Inventory is currently empty", background="#FFFFFF", foreground="#263238").pack()
         else:
-            ttk.Label(self.inventory_frame, text="Current inventory:", background="#FFFFFF", foreground="#263238").pack()
+            ttk.Label(self.inventory_frame, text="Current Inventory:", background="#FFFFFF", foreground="#263238").pack(pady=14)
 
         for item in self.pantry.get_inventory():
-            id, code, name = item
-            ttk.Label(self.inventory_frame, text=f"{id}: Barcode: {code}, Name: {name}", background="#FFFFFF", foreground='#263238').pack()
+            num, code, name = item
+            label_text = f"ID {num}: {code}, {name}"
+            ttk.Label(self.inventory_frame, text=label_text, background="#FFFFFF", foreground='#263238', width=max_name_length + 14, font=('Helvetica', 10)).pack()
