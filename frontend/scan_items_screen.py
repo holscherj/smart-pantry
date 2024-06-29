@@ -37,8 +37,12 @@ class ScanItemsScreen(tk.Frame):
         self.scan_button = tk.Button(self, text="Scan Items", bg="#1E88E5", fg="white", font=('Helvetica', 12), command=self.start_scan)
         self.scan_button.pack(fill=tk.X, pady=10)
 
+        self.back_button = tk.Button(self, text="Back", bg="#1E88E5", fg="white", font=('Helvetica', 12), command=master.show_main_screen)
+        self.back_button.pack(fill=tk.X, pady=10)
+
     def start_scan(self):
         self.scan_button.pack_forget()
+        self.back_button.pack_forget()
         self.entry.pack(fill=tk.X, pady=10)
         self.entry.focus()
         self.stop_button.pack(fill=tk.X, pady=10)

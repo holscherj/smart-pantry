@@ -51,6 +51,7 @@ class MainFrame(tk.Tk):
     def show_screen(self, frame_class, *args, **kwargs):
         if self.current_screen is not None:
             self.current_screen.destroy()
+
         self.current_screen = frame_class(self, *args, **kwargs)
         self.current_screen.pack()
 
@@ -61,11 +62,12 @@ class MainScreen(tk.Frame):
     def __init__(self, master):
         super().__init__(master)
         self.configure(background="#FFFFFF")
+
         ttk.Label(self, text="Welcome to your Smart Pantry!", background="#FFFFFF", foreground='#263238', padding=30).pack(fill=tk.X)
         tk.Button(self, text="Scan Items", bg="#1E88E5", fg="white", font=('Helvetica', 12), command=lambda: master.show_screen(ScanItemsScreen, pantry)).pack(fill=tk.X, pady=20)
         tk.Button(self, text="Edit Inventory", bg="#1E88E5", fg="white", font=('Helvetica', 12), command=lambda: master.show_screen(EditInventoryScreen, pantry)).pack(fill=tk.X, pady=20)
-        tk.Button(self, text="Generate Recipe", bg="#1E88E5", fg="white", font=('Helvetica', 12), command=lambda: master.show_screen(RecipeScreen)).pack(fill=tk.X, pady=20)
-        tk.Button(self, text="View Grocery List", bg="#1E88E5", fg="white", font=('Helvetica', 12), command=lambda: master.show_screen(GroceryListScreen)).pack(fill=tk.X, pady=20)
+        tk.Button(self, text="Generate Recipe", bg="#1E88E5", fg="white", font=('Helvetica', 12), command=lambda: master.show_screen(RecipeScreen, pantry)).pack(fill=tk.X, pady=20)
+        tk.Button(self, text="View Grocery List", bg="#1E88E5", fg="white", font=('Helvetica', 12), command=lambda: master.show_screen(GroceryListScreen, pantry)).pack(fill=tk.X, pady=20)
 
 if __name__ == "__main__":
     app = MainFrame()
